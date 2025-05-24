@@ -1,0 +1,232 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+     <link rel="stylesheet" href="style.css">
+
+    <script>
+
+        function selectcategory(){
+            fetch("https://fakestoreapi.com/products/categories")
+            .then(function(responce){
+                return responce.json();
+            })
+            .then(function(categories){
+                categories.unshift("all");
+                for(var Category of categories){
+                    var option=document.createElement("option");
+                    option.text=Category.toUpperCase();
+                    option.value=Category;
+                    document.querySelector("select").appendChild(option);
+                }
+            })
+        }
+  
+
+       function mainload(url){
+        fetch(url)
+        .then(function(response){
+            return response.json();
+        })
+        .then(function(products){
+            document.querySelector("main").innerHTML="";
+            for(var product of products){
+                var div=document.createElement("div");
+                div.className="card m-3 p-3";
+                div.style.width="300px";
+              
+                div.innerHTML=`
+                <img src=${product.image}  class="card-ing-top" width="200px" height="200px">
+                 <div>
+                    <div class=" card-header">
+                    <dd>${product.title}<dd>
+                    </div>
+                    <div class="card-body">
+                    <dt>Price</dt>
+                    <dd>${product.price}</dd>
+                    <dt>Rating</dt>
+                    <dd>${product.rating.rate}[${product.rating.count}]</dd>
+                    </div>
+                    <div class="card-fotor">
+                    <button onclick=addclick(${product.id}) class="btn btn-danger"><span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
+  <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+</svg></span> Add to cart </button>
+                    </div>
+                </div>
+                `;
+                document.querySelector("main").appendChild(div);
+            }
+        })
+
+       }
+
+      function bodyload(){
+        selectcategory();
+        mainload("https://fakestoreapi.com/products/");
+        categorychange();
+        maincort();
+        showclick();
+       
+      }
+
+      
+      function categorychange(){
+        var pos=document.querySelector("select").value;
+        if(pos=="all"){
+            mainload("https://fakestoreapi.com/products/");
+        }else
+        mainload(`https://fakestoreapi.com/products/category/${pos}`);
+      }
+
+      function NavClicked(pos) {
+       
+    if (pos == "all") {
+        mainload("https://fakestoreapi.com/products/");
+    } else {
+        mainload(`https://fakestoreapi.com/products/category/${pos}`);
+    }
+}
+
+
+       var productiteam=[];
+       function cartitems(){
+        document.getElementById("lblcount").innerHTML=productiteam.length;
+       }
+
+      function addclick(id){
+        fetch(`https://fakestoreapi.com/products/${id}`)
+        .then(function(responce){
+            return responce.json();
+        })
+        .then(function(items){
+            productiteam.push(items)
+            alert(`${items.title}\n Add your cart`);
+            cartitems();
+        })
+      }
+
+    function showclick() {
+    document.querySelector("tbody").innerHTML = "";
+    for (var items of productiteam) {
+        var tr = document.createElement("tr");
+        var trname = document.createElement("td");
+        var trprice = document.createElement("td");
+        var trpick = document.createElement("td");
+
+        trname.innerHTML = items.title;
+        trprice.innerHTML = items.price;
+        trpick.innerHTML = `<img src="${items.image}" width="50px" height="50px">`;
+
+        tr.appendChild(trname);
+        tr.appendChild(trprice);
+        tr.appendChild(trpick);
+
+        document.querySelector("tbody").appendChild(tr);
+    }
+}
+
+
+
+
+    </script>   
+
+
+</head>
+<body onload="bodyload()" class="container-fluid">
+                         <!--Head section-->  
+  <nav class="row">
+        <h2 class="col-3">Shoper.</h2>
+        <ol class="col-7">
+            <li> <a href="javascript:NavClicked('all')">Home</a></li>
+            <li> <a href="javascript:NavClicked('electronics')">Electronics</a></li>
+            <li> <a href="javascript:NavClicked('jewelery')">Jewelery</a></li>
+            <li> <a href="javascript:NavClicked('men\'s clothing')">Man's Fashion</a></li>
+            <li> <a href="javascript:NavClicked('women\'s clothing')">Women's Fashion</a></li>
+        </ol>
+       
+        <dl class="col-1">
+          <dt>
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+            <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z"/>
+            </svg>
+           </dt>  
+          <dt>
+            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
+              </svg>
+          </dt> 
+          <dt id="cartc">
+           <a href="#cart" data-bs-toggle="modal"> <svg onclick="showclick()" class="text-white" xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
+                <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+              </svg></a><span  class="badge bg-danger rounded rounded-circle" 
+              id="lblcount">0</span>
+          </dt> 
+        </dl>
+    </nav>
+                <!--cart show items-->
+   
+                <div class="modal" tabindex="-1" id="cart">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">Modal title</h5>
+                          <button type="button" class="btn-close"  data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                <th>Name</th>
+                                <th>Price</th>
+                                <th>Preview</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+
+                            </tbody>
+                        </table>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                          <button type="button" class="btn btn-primary"   data-bs-dismiss="modal">Save changes</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+    <!--Select Category-->
+  
+    <section class="row mt-4">
+        <div class="col-3">
+          <h5>Select Category</h5>
+            <select onchange="categorychange()" class="form-select" >
+
+            </select>
+
+        </div>
+       
+
+         <main class="col-9 d-flex flex-wrap" >
+         
+         </main>    
+    </section>
+
+      <!--card-footer-->  
+<footer>
+  <div class="card-footer" id="for">
+  <div>
+    <h2>Ph : +91  9347893134; 2024, thanguduvasu143@gmail.com</h2>
+    <h4>All Rights Reserved</h4>
+    <h4>Developed & Maintained by <span id="VASU" >VASU</span></h4>
+  </div>
+  
+  </div>
+  </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html> 
+
+

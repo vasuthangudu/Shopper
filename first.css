@@ -1,0 +1,108 @@
+#homebackcolour{
+    height: 60px;
+    padding:10px;
+    background: linear-gradient(to right,black,red);
+
+}
+#homebackcolour #A--{
+    padding:5px;
+    align-items: flex-end;
+    width: 80px;
+    background-color: black;
+
+}
+#Homeright{
+float: right; 
+
+} 
+
+
+/*  Governmentofindia_logo   */
+
+
+#Governmentofindia_logo{
+   height:90px;
+
+}
+#RAILWAY_RECUITMENT{
+    color: blue;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+
+                   /* Create_Account_bgcolour */
+
+#Create_Account_bgcolour{
+ 
+    background-color:antiquewhite;
+}
+#Create_an_Account_icon{
+    width: 30px;
+}
+#creat_account{
+    
+    font-family: bold;
+    font-size: 30px; 
+    color: purple;
+}
+
+#data_sides{
+    background-color:antiquewhite;
+}
+
+#Country{
+text-align: left;
+}    
+#Alldata{
+    padding: 20px;
+    border-radius: 20px;
+    background-color: whitesmoke;
+}
+#Modile{
+
+    display: flex;
+    justify-content: center;
+    align-items: center;  
+    margin-top: 15px;  
+             
+}
+
+
+#Countryy{
+text-align: start;
+margin-top: 0px;
+}
+#Countryyy{
+    text-align: start;
+    margin-top: -15px;
+    }
+.BLUE_TEXT{
+    color: blueviolet;
+}
+#Verfyy{
+    background-color:blueviolet;
+    color: white;
+    height: 35px;
+    padding: 5px;
+    border-radius: 30px;
+    margin-top: 40px;
+    
+}
+#Verfyyy{
+    background-color:blueviolet;
+    color: white;
+    height: 35px;
+    padding: 5px;
+    border-radius: 30px;
+    margin-top: 40px;
+
+
+  
+    
+}
+
+footer{
+    background-color: black;
+    text-align: center;
+    color: white;
+    margin-top: 5px;
+  }
